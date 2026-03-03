@@ -1,50 +1,49 @@
-# Poetry Ref: https://python-poetry.org/docs/pyproject/
-[tool.poetry]
-name = "applepassgenerator"
-version = "0.0.2"
+[project]
+name = "applepassgenerator-reloaded"
+version = "0.0.3"
 description = "Python package to create passes compatible with Apple Wallet."
-authors = ["Primedigital Global <oss@primedigital.tech>"]
+authors = [
+    {"name" = "Primedigital Global", "email"= "oss@primedigital.tech"},
+    {"name" = "dmunozv04"}
+    ]
+
 maintainers = [
-    "Vikalp Jain <vikalp@primedigital.tech>",
-    "Vaibhav Sahu <vaibhav@primedigital.tech>",
-    "Hardik Shah <hardik@primedigital.tech>",
-]
+    {"name" = "Vikalp Jain", "email"= "vikalp@primedigital.tech"},
+    {"name" = "Vaibhav Sahu", "email"= "vaibhav@primedigital.tech"},
+    {"name" = "Hardik Shah", "email"= "hardik@primedigital.tech"},
+    {"name" = "dmunozv04"}
+    ]
+
 license = "MIT"
 
 readme = "README.md"
-packages = [
-    { include = "applepassgenerator", from = "src" }
-]
-
-homepage = "https://primedigitalglobal.github.io/applepassgenerator"
-repository = "https://github.com/PrimedigitalGlobal/applepassgenerator"
-documentation = "https://primedigitalglobal.github.io/applepassgenerator"
 
 keywords = ["apple pass", "apple wallet", "passbook", "applepassgenerator"]
 
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Natural Language :: English",
     "Programming Language :: Python :: 3.9",
     "Operating System :: OS Independent"
 ]
+dependencies = [
+    "cryptography>=37.0.2,<38",
+]
 
-[tool.poetry.dependencies]
-python = "^3.9"
-cryptography = "^37.0.2"
+[project.urls]
+homepage = "https://github.com/dmunozv04/applepassgenerator-reloaded"
+repository = "https://github.com/dmunozv04/applepassgenerator-reloaded"
+documentation = "https://github.com/dmunozv04/applepassgenerator-reloaded"
 
-[tool.poetry.dev-dependencies]
-bump2version = "^1.0.1"
-pre-commit = "^2.19.0"
-flake8 = "^5.0.4"
-pytest = "^7.1.2"
-pytest-cov = "^3.0.0"
-mkdocs = "^1.3.0"
-mkdocs-material = "^8.3.8"
-mkdocs-material-extensions = "^1.0.3"
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+[dependency-groups]
+dev = [
+    "bump2version>=1.0.1,<2",
+    "flake8>=5.0.4,<6",
+    "mkdocs>=1.3.0,<2",
+    "mkdocs-material>=8.3.8,<9",
+    "mkdocs-material-extensions>=1.0.3,<2",
+    "pre-commit>=2.19.0,<3",
+    "pytest>=7.1.2,<8",
+    "pytest-cov>=3.0.0,<4",
+]

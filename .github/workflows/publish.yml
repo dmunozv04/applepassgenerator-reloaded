@@ -1,44 +1,31 @@
-name: Publish and Release
+name: "Publish"
 
 on:
   push:
     tags:
-      - '*.*.*'
+      # Publish on any tag starting with a `v`, e.g., v0.1.0
+      - v*
 
 jobs:
-  build-and-publish:
-    name: Publish and Release Python 🐍 distributions 📦 to PyPI
+  run:
     runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v4
-      with:
-        python-version: 3.9
-    - name: Install Poetry
-      run: pip install poetry
-    - name: Build the Source and Wheels Archives
-      run: poetry build
-    - name: Publish distribution 📦 to PyPI
-      env:
-        PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
-      run: |
-        poetry config pypi-token.pypi $PYPI_TOKEN
-        poetry publish
-    - name: Extract release notes
-      id: extract-release-notes
-      uses: ffurrer2/extract-release-notes@v1
-      with:
-        changelog_file: docs/changelog.md
-    - name: Create release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: ${{ github.ref }}
-        draft: false
-        prerelease: false
-        body: ${{ steps.extract-release-notes.outputs.release_notes }}
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+      - name: Install Python 3.13
+        run: uv python install 3.13
+      - name: Build
+        run: uv build
+    #   # Check that basic features work and we didn't miss to include crucial files
+    #   - name: Smoke test (wheel)
+    #     run: uv run --isolated --no-project --with dist/*.whl tests/smoke_test.py
+    #   - name: Smoke test (source distribution)
+    #     run: uv run --isolated --no-project --with dist/*.tar.gz tests/smoke_test.py
+      - name: Publish
+        run: uv publish
